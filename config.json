@@ -1,0 +1,12 @@
+{
+	"workers": {
+		"publicapi": {
+			"instance": "cpu",
+			"respawn": true
+		},
+		"restapi": {
+			"instance": 2,
+			"respawn": true
+		}
+	}
+}

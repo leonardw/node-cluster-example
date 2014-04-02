@@ -1,0 +1,20 @@
+{
+  "name": "node-cluster-example",
+  "version": "0.0.1",
+  "description": "A better way to start worker processes using native Node 'cluster' built-in.",
+  "main": "ha.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
+  },
+  "dependencies": {
+  },
+  "repository": "https://github.com/leonardw/node-cluster-example.git",
+  "keywords": [
+    "Node.js",
+    "Cluster",
+    "High Availability"
+  ],
+  "author": "Leonard Wu",
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
