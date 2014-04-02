@@ -42,6 +42,18 @@ if (cluster.isMaster) {
 			}
 		}
 	}
+	
+	cluster.on('online', function(worker) {
+		console.info('Worker '+worker.id+' online');
+	});
+	
+	cluster.on('listening', function(worker, address) {
+		console.info('Worker '+worker.id+' listening on ' + address.address + ':' + address.port);
+	});
+	
+	cluster.on('disconnect', function(worker) {
+		console.info('Worker ' + worker.id + ' disconnected');
+	});
 
 	cluster.on('exit', function(worker, code, signal) {
 		console.warn('Worker '+ worker.id +' PID ' + worker.process.pid + (code?' exit with code '+code : (signal?' killed due to '+signal:' exit')));
