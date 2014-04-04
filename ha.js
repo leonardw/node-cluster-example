@@ -1,6 +1,12 @@
 var cluster = require('cluster'),
-	path = require('path'),
-	cpuCores = require('os').cpus().length;
+	path = require('path');
+
+if (!cluster.isMaster) {
+	console.warn('Terminated. Attempt to run Master in Worker mode.');
+	process.exit(1);
+}
+
+var CPU_CORES = require('os').cpus().length;
 
 var workers = require('./config').workers;
 var respawnWorkers = {};
@@ -12,7 +18,7 @@ function showWorkers() {
 //	}
 }
 
-if (cluster.isMaster) {
+
 	var extargs = process.argv.slice(2);
 	// purely cosmetic for now; will replace fork(ENV) once issue is fixed
 	// https://github.com/joyent/node/issues/4149
@@ -26,48 +32,47 @@ if (cluster.isMaster) {
 		args : extargs
 	});
 	
-	// Fork workers.
-	for (var exec in workers) {
-		var prop = workers[exec];
-		var instance = (prop.instance === 'cpu')? cpuCores : prop.instance;
+	// Fork worker processes
+	for (var role in workers) {
+		var prop = workers[role];
+		var instance = (prop.instance === 'cpu')? CPU_CORES : prop.instance;
 		for (var i = 0; i < instance; i++) {
 			var env = {
-				NODE_WORKER_ROLE: exec,
+				NODE_WORKER_ROLE: role,
 				NODE_WORKER_ROLE_INSTANCE: instance,
 				NODE_WORKER_ROLE_RESPAWN: prop.respawn
 			};
 			var worker = cluster.fork(env);
-			if (prop.respawn) {
-				respawnWorkers[worker.id] = env;
-			}
+			respawnWorkers[worker.id] = env;
 		}
 	}
 	
+	function workerInfo(worker) {
+		return 'Worker ' + worker.id + ' ' + respawnWorkers[worker.id]['NODE_WORKER_ROLE'] + ' (PID ' + worker.process.pid + ')';
+	}
+	
 	cluster.on('online', function(worker) {
-		console.info('Worker '+worker.id+' online');
+		console.info(workerInfo(worker) + ' online');
 	});
 	
 	cluster.on('listening', function(worker, address) {
-		console.info('Worker '+worker.id+' listening on ' + address.address + ':' + address.port);
+		console.info(workerInfo(worker) + ' listening on ' + address.address + ':' + address.port);
 	});
 	
 	cluster.on('disconnect', function(worker) {
-		console.info('Worker ' + worker.id + ' disconnected');
+		console.info(workerInfo(worker) + ' disconnected');
 	});
 
 	cluster.on('exit', function(worker, code, signal) {
-		console.warn('Worker '+ worker.id +' PID ' + worker.process.pid + (code?' exit with code '+code : (signal?' killed due to '+signal:' exit')));
+		console.warn(workerInfo(worker) + (code?' exit with code '+code : (signal?' killed due to '+signal:' exit')));
 		var env = respawnWorkers[worker.id];
 		if (env && env.NODE_WORKER_ROLE_RESPAWN) {
 			delete respawnWorkers[worker.id];
 			var spawn = cluster.fork(env);
 			respawnWorkers[spawn.id] = env;
 		}
-//		showWorkers();
+		//showWorkers();
 	});
 	
-//	showWorkers();
-	
-} else {
-	console.warn('Trying to run Master in worker mode; this should not happen!');
-}
+	//showWorkers();
+
