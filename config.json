@@ -1,10 +1,10 @@
 {
 	"worker": {
-		"publicapi": {
+		"webhttp": {
 			"instance": "cpu",
 			"respawn": true
 		},
-		"restapi": {
+		"adminhttp": {
 			"instance": 2,
 			"respawn": true
 		}

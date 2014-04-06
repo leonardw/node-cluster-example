@@ -1,11 +1,12 @@
 # node-cluster-example
 
-A better way to start worker processes using native Node 'cluster' built-in.
+Sample Node project demonstrating use of the 'cluster-role' npm module to easily start up two clusters
+of HTTP servers, one group serving a public web server, and another running an admin web console
 
 ## Usage
 
 ```sh
-$ node ha.js
+$ node start.js
 ```
 
 
@@ -13,7 +14,7 @@ $ node ha.js
 
 (The MIT License)
 
-Copyright (c) 2013 Leonard Wu <leonard.wu92@alumni.imperial.ac.uk>
+Copyright (c) 2014 Leonard Wu <leonard.wu92@alumni.imperial.ac.uk>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
