@@ -1,13 +1,26 @@
 # node-cluster-example
 
-Sample Node project demonstrating use of the 'cluster-role' npm module to easily start up two clusters
+Sample Node project demonstrating the use of the 'cluster-role' npm module to easily start up two clusters
 of HTTP servers, one group serving a public web server, and another running an admin web console
 
 ## Usage
 
 ```sh
-$ node start.js
+git clone https://github.com/leonardw/node-cluster-example.git
+cd node-cluster-example
+node start.js
 ```
+
+## Demo
+In web browser, visit the three ports 8000, 8001, 8002 at `localhost` and see three different applications, each
+reporting its OS process ID and the environment variables. Try terminate any of the processes
+and see respawning in action.
+ 
+* Web HTTP: [http://localhost:8000](http://localhost:8000)
+ 
+* Admin HTTP: [http://localhost:8001](http://localhost:8001)
+ 
+* Extra HTTP: [http://localhost:8002](http://localhost:8002)
 
 
 ##License
