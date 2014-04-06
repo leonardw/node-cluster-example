@@ -1,7 +1,7 @@
 {
 	"name": "node-cluster-example",
 	"version": "0.1.0",
-	"description": "Sample Node project demonstrating use of the 'cluster-role' npm module to easily start up two clusters of HTTP servers, one group serving a public web server, and another running an admin web console",
+	"description": "Sample Node project demonstrating use of the 'cluster-role' npm module to easily start up multiple clusters of HTTP servers, with one group serving a public web server, and another running an admin web console",
 	"scripts": {
 		"test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
 	},
